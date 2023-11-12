@@ -1,0 +1,15 @@
+{
+    "entries": [
+        {
+            "characterName": "Satoshi Nakamoto",
+            "sentences": ["I've been working on a new electronic cash system that's fullypeer-to-peer, with no trusted third party.",
+            "The paper is available at: http://www.bitcoin.org/bitcoin.pdf",
+            "The main properties: Double-spending is prevented with a peer-to-peer network.",
+            "No mint or other trusted parties.",
+            "Participants can be anonymous.",
+            "New coins are made from Hashcash style proof-of-work.",
+            "The proof-of-work for new coin generation also powers the network to prevent double-spending."
+        ]
+        }
+    ]
+}
