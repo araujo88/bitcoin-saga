@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 14830080550248736}
   - component: {fileID: 752936152052469252}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Satoshi
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

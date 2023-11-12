@@ -2,7 +2,8 @@
     "entries": [
         {
             "characterName": "Satoshi Nakamoto",
-            "sentences": ["I've been working on a new electronic cash system that's fully peer-to-peer, with no trusted third party.",
+            "sentences": [
+            "I've been working on a new electronic cash system that's fully peer-to-peer, with no trusted third party.",
             "The paper is available at: http://www.bitcoin.org/bitcoin.pdf",
             "The main properties: double-spending is prevented with a peer-to-peer network.",
             "No mint or other trusted parties.",

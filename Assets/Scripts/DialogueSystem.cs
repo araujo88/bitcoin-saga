@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Collections;
+using System;
 
 [System.Serializable]
 public class DialogueEntry
@@ -20,8 +21,8 @@ public class DialogueData
 
 public class DialogueSystem : MonoBehaviour
 {
-    public Text nameText;
-    public Text dialogueText;    
+    private Text nameText;
+    private Text dialogueText;    
     private Queue<string> sentences = new Queue<string>();
     private DialogueData dialogueData;
     private int currentSentenceIndex = 0; // Track the current sentence index
@@ -32,12 +33,16 @@ public class DialogueSystem : MonoBehaviour
     protected GameObject dialoguePanelInstance;
     private bool dialogStarted = false;
     private bool skipTyping = false;
-    public AudioClip dialogueSound;
+    private AudioClip dialogueSound;
     private AudioSource audioSource;
-    public Image avatar;
+    private Image avatar;
+    public event Action OnDialogueEnd;
+    public bool IsDialogueComplete { get; private set; }
+
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
+        avatar = GetComponent<Image>();
     }
 
     void StartDialogue()
@@ -154,6 +159,8 @@ public class DialogueSystem : MonoBehaviour
         waitingForPlayerInput = false;
         dialoguePanelInstance.SetActive(false);
         dialogStarted = false;
+        IsDialogueComplete = true;
+        OnDialogueEnd?.Invoke();
     }
 
     // Update is called once per frame
@@ -179,13 +186,22 @@ public class DialogueSystem : MonoBehaviour
     }
 
     // You can use this method to start a dialogue from an external script
-    public void StartDialogueFromExternal(string filename, AudioClip sound)
+    public void StartDialogueFromExternal(string filename, AudioClip sound, Sprite sprite)
     {
-        dialogueSound = sound;
         if (!dialogStarted) {
+            dialogueSound = sound;
+            IsDialogueComplete = false;
+
             dialoguePanelInstance = Instantiate(dialoguePanelPrefab);
             dialoguePanelInstance.SetActive(true);
             dialoguePanelInstance.transform.SetParent(GameObject.Find("Dialogue").transform, false);
+
+            if (sprite != null) {
+                avatar = dialoguePanelInstance.transform.Find("Image").GetComponent<Image>();
+                avatar.sprite = sprite;
+                avatar.enabled = true;
+                avatar.color = Color.white;
+            }
 
             nameText = dialoguePanelInstance.transform.Find("Name").GetComponent<Text>();
             dialogueText = dialoguePanelInstance.transform.Find("Dialogue").GetComponent<Text>();

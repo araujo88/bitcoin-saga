@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class SatoshiNakamoto : MonoBehaviour
@@ -11,15 +12,15 @@ public class SatoshiNakamoto : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        StartCoroutine(WaitAndStartDialogue(1f));
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator WaitAndStartDialogue(float waitTime)
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            dialogueSystem.StartDialogueFromExternal("dialogue1.json", dialogueSound);
-        }
+        // Wait for the specified amount of time
+        yield return new WaitForSeconds(waitTime);
+
+        // After the wait, start the dialogue
+        dialogueSystem.StartDialogueFromExternal("dialogue1.json", dialogueSound, avatar);
     }
 }
