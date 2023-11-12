@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - Collider
+  - Exit
+  - Bathroom
   layers:
   - Default
   - TransparentFX
