@@ -29,7 +29,7 @@ public class IntroSceneManager : MonoBehaviour
             yield return StartCoroutine(FadeIn(scenes[i], fadeDuration));
 
             // Start the dialogue
-            dialogueSystem.StartDialogueFromExternal("Intro/dialogue" + i + ".json", null, null);
+            dialogueSystem.StartDialogueFromExternal("Intro/dialogue" + i + ".json", null, null, 0.05f);
 
             // Now wait until the dialogue ends
             yield return new WaitUntil(() => dialogueSystem.IsDialogueComplete);

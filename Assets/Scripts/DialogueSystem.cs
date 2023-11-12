@@ -38,6 +38,7 @@ public class DialogueSystem : MonoBehaviour
     private Image avatar;
     public event Action OnDialogueEnd;
     public bool IsDialogueComplete { get; private set; }
+    private float typeSeconds = 0.05f;
 
 
     void Start() {
@@ -145,7 +146,7 @@ public class DialogueSystem : MonoBehaviour
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(0.05f); // Waits 0.05 seconds before continuing the loop, adjust the timing to your liking
+            yield return new WaitForSeconds(typeSeconds); // Waits 0.05 seconds before continuing the loop, adjust the timing to your liking
         }
         waitingForPlayerInput = true; // The player can proceed to the next sentence after the current one has finished typing
     }
@@ -186,9 +187,10 @@ public class DialogueSystem : MonoBehaviour
     }
 
     // You can use this method to start a dialogue from an external script
-    public void StartDialogueFromExternal(string filename, AudioClip sound, Sprite sprite)
+    public void StartDialogueFromExternal(string filename, AudioClip sound, Sprite sprite, float velocity)
     {
         if (!dialogStarted) {
+            typeSeconds = velocity;
             dialogueSound = sound;
             IsDialogueComplete = false;
 

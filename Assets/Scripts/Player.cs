@@ -84,11 +84,11 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Exit") {
-            dialogueSystem.StartDialogueFromExternal("Scene2/exit.json", null, avatar);
+            dialogueSystem.StartDialogueFromExternal("Scene2/exit.json", null, avatar, 0.025f);
             MoveToRelativePosition(new Vector2(1, 0), .5f);
         }
         if (collision.gameObject.tag == "Bathroom") {
-            dialogueSystem.StartDialogueFromExternal("Scene2/bathroom.json", null, avatar);
+            dialogueSystem.StartDialogueFromExternal("Scene2/bathroom.json", null, avatar, 0.025f);
             MoveToRelativePosition(new Vector2(0, 1), .5f);
         }        
     }

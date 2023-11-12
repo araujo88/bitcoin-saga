@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SatoshiNakamoto : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class SatoshiNakamoto : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         // After the wait, start the dialogue
-        dialogueSystem.StartDialogueFromExternal("dialogue1.json", dialogueSound, avatar);
+        dialogueSystem.StartDialogueFromExternal("dialogue1.json", dialogueSound, avatar, 0.05f);
+
+        yield return new WaitUntil(() => dialogueSystem.IsDialogueComplete);
+
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene(2);
     }
 }
