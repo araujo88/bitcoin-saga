@@ -19,7 +19,7 @@ public class SatoshiNakamoto : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            dialogueSystem.StartDialogueFromExternal("dialogue1.json");
+            dialogueSystem.StartDialogueFromExternal("dialogue1.json", dialogueSound);
         }
     }
 }

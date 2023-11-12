@@ -36,6 +36,10 @@ public class DialogueSystem : MonoBehaviour
     private AudioSource audioSource;
     public Image avatar;
 
+    void Start() {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void StartDialogue()
     {
         string path = Path.Combine(Application.dataPath, jsonFilePath);
@@ -109,6 +113,7 @@ public class DialogueSystem : MonoBehaviour
         {
             StopAllCoroutines(); // Stop any existing typing coroutine in case the player skips to the next sentence
             string sentence = sentences.ElementAt(currentSentenceIndex);
+            PlaySound(dialogueSound);            
             StartCoroutine(TypeSentence(sentence)); // Start the coroutine to type out the sentence
             currentSentenceIndex++;
         }
@@ -164,9 +169,19 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    // You can use this method to start a dialogue from an external script
-    public void StartDialogueFromExternal(string filename)
+    void PlaySound(AudioClip sound)
     {
+        if (audioSource && sound)
+        {
+            audioSource.clip = sound;
+            audioSource.Play();
+        }
+    }
+
+    // You can use this method to start a dialogue from an external script
+    public void StartDialogueFromExternal(string filename, AudioClip sound)
+    {
+        dialogueSound = sound;
         if (!dialogStarted) {
             dialoguePanelInstance = Instantiate(dialoguePanelPrefab);
             dialoguePanelInstance.SetActive(true);
