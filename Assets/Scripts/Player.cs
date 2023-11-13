@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float speed = 10;
+    [SerializeField] private float speed = 8;
     private bool facingRight = false;
     private Rigidbody2D rigidBody;
     [SerializeField] private float velocityTolerance = 0.1f;
@@ -90,7 +91,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Bathroom") {
             dialogueSystem.StartDialogueFromExternal("Scene2/bathroom.json", null, avatar, 0.025f);
             MoveToRelativePosition(new Vector2(0, 1), .5f);
-        }        
+        }  
     }
 
     // Method to call to move the player to a relative position
@@ -119,4 +120,16 @@ public class Player : MonoBehaviour
 
         transform.position = targetPosition;
     }
+
+    // void OnTriggerStay2D(Collider2D collider)
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Return)) {
+    //         Debug.Log("Return key was pressed.");            
+    //         if (collider.gameObject.tag == "NPC") {
+    //             Entity entity = collider.gameObject.GetComponent<Entity>();
+    //                 entity.UpdateSpriteBasedOnPlayerPosition(transform.position);
+    //                 entity.StartDialogue();
+    //          }
+    //     }
+    // }    
 }
