@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float speed = 8;
-    private bool facingRight = false;
+    private float speed = 5f;
     private Rigidbody2D rigidBody;
     [SerializeField] private float velocityTolerance = 0.1f;
     public Animator animator;
@@ -18,6 +17,7 @@ public class Player : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        dialogueSystem.StartDialogueFromExternal("Scene2/intro.json", null, avatar, 0.025f);
     }
 
     // Update is called once per frame
@@ -34,13 +34,6 @@ public class Player : MonoBehaviour
 
         // Apply the movement to the Rigidbody2D
         rigidBody.velocity = new Vector2(moveX, moveY);
-
-        // Handle character flipping for horizontal movement
-        // if (moveX > 0 && !facingRight) {
-        //     Flip();
-        // } else if (moveX < 0 && facingRight) {
-        //     Flip();
-        // }
     }
 
     void AnimatorController() {
@@ -72,15 +65,6 @@ public class Player : MonoBehaviour
             animator.SetBool("isMovingUp", false);
             animator.SetBool("isMovingDown", false);
         }
-    }
-
-    private void Flip() {
-        facingRight = !facingRight;
-        
-        // Flip the sprite by scaling along the x-axis.
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
@@ -120,16 +104,4 @@ public class Player : MonoBehaviour
 
         transform.position = targetPosition;
     }
-
-    // void OnTriggerStay2D(Collider2D collider)
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Return)) {
-    //         Debug.Log("Return key was pressed.");            
-    //         if (collider.gameObject.tag == "NPC") {
-    //             Entity entity = collider.gameObject.GetComponent<Entity>();
-    //                 entity.UpdateSpriteBasedOnPlayerPosition(transform.position);
-    //                 entity.StartDialogue();
-    //          }
-    //     }
-    // }    
 }
