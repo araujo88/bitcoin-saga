@@ -11,6 +11,19 @@ public class Player : MonoBehaviour
     public Animator animator;
     public DialogueSystem dialogueSystem;
     public Sprite avatar;
+
+    // Public method to set the player's ability to move
+    public void SetMovementEnabled(bool enabled)
+    {
+        // Assuming you have a method called Move() that's responsible for moving the player
+        // and an Animator Controller to handle animations
+        this.enabled = enabled; // Enable or disable the Player script
+        animator.SetBool("isMoving", false); // Stop movement animations
+        if (!enabled)
+        {
+            rigidBody.velocity = Vector2.zero; // Stop any current movement
+        }
+    }
     
     // Start is called before the first frame update
     void Start()

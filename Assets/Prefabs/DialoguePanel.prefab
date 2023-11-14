@@ -310,5 +310,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '"I''ve been working on a new electronic cash system that''s fullypeer-to-peer,
-    with no trusted third party.'
+  m_Text: Test
