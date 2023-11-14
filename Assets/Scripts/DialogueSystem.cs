@@ -19,6 +19,7 @@ public class DialogueEntry
     public string characterName;
     public string[] sentences;
     public List<DialogueChoice> choices;
+    public bool end = false;
 }
 
 [System.Serializable]
@@ -79,7 +80,6 @@ public class DialogueSystem : MonoBehaviour
             Debug.LogError("Failed to load dialogue data.");
         }
     }
-
 
     bool LoadDialogueData(string jsonFilePath)
     {
@@ -188,9 +188,9 @@ public class DialogueSystem : MonoBehaviour
     {
         // Ensure that any ongoing dialogue display is stopped before proceeding
         StopAllCoroutines();
-        
+
         // Update the current entry index based on the choice made
-        currentEntryIndex = choice.nextDialogueIndex;
+        int nextIndex = choice.nextDialogueIndex;
 
         // Clear any existing choices
         ClearChoices();
@@ -198,8 +198,17 @@ public class DialogueSystem : MonoBehaviour
         // Reset the sentence index
         currentSentenceIndex = 0;
 
-        // Display the dialogue entry linked to the chosen dialogue choice
-        DisplayDialogue(currentEntryIndex);
+        // Check if the next dialogue index is valid before displaying
+        if (nextIndex >= 0 && nextIndex < dialogueData.entries.Count)
+        {
+            currentEntryIndex = nextIndex; // Only update the currentEntryIndex if the nextIndex is valid
+            DisplayDialogue(currentEntryIndex);
+        }
+        else
+        {
+            Debug.LogError("Invalid next dialogue index: " + nextIndex);
+            EndDialogue(); // End the dialogue if the next index is invalid
+        }
     }
 
     void DisplayNextSentence()
@@ -214,17 +223,27 @@ public class DialogueSystem : MonoBehaviour
         }
         else
         {
-            // Check if there are choices at the end of this dialogue entry
-            if (dialogueData.entries[currentEntryIndex].choices != null &&
-                dialogueData.entries[currentEntryIndex].choices.Count > 0)
+            DialogueEntry currentEntry = dialogueData.entries[currentEntryIndex];
+
+            // Check if there are choices or if the dialogue entry is marked as the end of a branch.
+            if (!currentEntry.end)
             {
-                // If there are choices, display them
-                DisplayChoices(dialogueData.entries[currentEntryIndex].choices);
+                // If there are choices at the end of this dialogue entry
+                if (currentEntry.choices != null && currentEntry.choices.Count > 0)
+                {
+                    // If there are choices, display them
+                    DisplayChoices(currentEntry.choices);
+                }
+                else
+                {
+                    // If there are no choices, proceed to the next dialogue entry
+                    ProceedToNextDialogueEntry();
+                }
             }
             else
             {
-                // If there are no choices, proceed to the next dialogue entry
-                ProceedToNextDialogueEntry();
+                // If the current entry is the end of a branch, do not proceed
+                EndDialogue();
             }
         }
     }

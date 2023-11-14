@@ -3,31 +3,35 @@
         {
             "characterName": "NPC",
             "sentences": [
-            "Have you heard of this new digital currency called Bitcoin?"],
-        "choices": [
-            {
-              "text": "Yes.",
-              "nextDialogueIndex": 1
-            },
-            {
-              "text": "No.",
-              "nextDialogueIndex": 2
-            }
-          ]
+                "Have you heard of this new digital currency called Bitcoin?"
+            ],
+            "choices": [
+                {
+                    "text": "Yes.",
+                    "nextDialogueIndex": 1
+                },
+                {
+                    "text": "No.",
+                    "nextDialogueIndex": 2
+                }
+            ],
+            "end": false
         },
         {
-          "characterName": "NPC",
-          "sentences": [
-            "Ha! It certainly is a ponzi scheme. Only a fool would buy that!"
-          ],
-          "choices": []
+            "characterName": "NPC",
+            "sentences": [
+                "Ha! It certainly is a ponzi scheme. Only a fool would buy that!"
+            ],
+            "choices": [],
+            "end": true
         },
         {
-          "characterName": "NPC",
-          "sentences": [
-            "No? Do you live in cave?."
-          ],
-          "choices": []
-        }        
+            "characterName": "NPC",
+            "sentences": [
+                "No? Do you live in a cave?."
+            ],
+            "choices": [],
+            "end": true
+        }
     ]
 }
