@@ -8,6 +8,8 @@ TagManager:
   - Collider
   - Exit
   - Bathroom
+  - ChoiceButton
+  - Button
   layers:
   - Default
   - TransparentFX

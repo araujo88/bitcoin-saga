@@ -1,0 +1,33 @@
+{
+    "entries": [
+        {
+            "characterName": "NPC",
+            "sentences": [
+            "Have you heard of this new digital currency called Bitcoin?"],
+        "choices": [
+            {
+              "text": "Yes.",
+              "nextDialogueIndex": 1
+            },
+            {
+              "text": "No.",
+              "nextDialogueIndex": 2
+            }
+          ]
+        },
+        {
+          "characterName": "NPC",
+          "sentences": [
+            "Ha! It certainly is a ponzi scheme. Only a fool would buy that!"
+          ],
+          "choices": []
+        },
+        {
+          "characterName": "NPC",
+          "sentences": [
+            "No? Do you live in cave?."
+          ],
+          "choices": []
+        }        
+    ]
+}

@@ -7,10 +7,19 @@ using System.Collections;
 using System;
 
 [System.Serializable]
+public class DialogueChoice
+{
+    public string text;
+    public int nextDialogueIndex; // The index of the next dialogue entry to jump to
+}
+
+[System.Serializable]
 public class DialogueEntry
 {
     public string characterName;
     public string[] sentences;
+    public List<DialogueChoice> choices;
+    public bool end = false;
 }
 
 [System.Serializable]
@@ -32,14 +41,18 @@ public class DialogueSystem : MonoBehaviour
     public GameObject dialoguePanelPrefab;
     protected GameObject dialoguePanelInstance;
     private bool dialogStarted = false;
-    private bool skipTyping = false;
+    // private bool skipTyping = false;
     private AudioClip dialogueSound;
     private AudioSource audioSource;
     private Image avatar;
     public event Action OnDialogueEnd;
     public bool IsDialogueComplete { get; private set; }
     private float typeSeconds = 0.05f;
-
+    public GameObject choiceButtonPrefab; // Assign this in the inspector
+    private List<GameObject> choiceButtons = new List<GameObject>(); // Track the choice buttons
+    private int currentChoiceIndex = 0; // Index of the selected choice button
+    private bool inDialogueMode = false;
+    public Player playerController; // Assign this in the inspector
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -54,7 +67,7 @@ public class DialogueSystem : MonoBehaviour
         {
             if (currentEntryIndex < dialogueData.entries.Count)
             {
-                DisplayDialogue(dialogueData.entries[currentEntryIndex].characterName);
+                DisplayDialogue(currentEntryIndex);
             }
             else
             {
@@ -67,7 +80,6 @@ public class DialogueSystem : MonoBehaviour
             Debug.LogError("Failed to load dialogue data.");
         }
     }
-
 
     bool LoadDialogueData(string jsonFilePath)
     {
@@ -90,15 +102,23 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    void DisplayDialogue(string characterName)
+    // Modify this method to accept an int index instead of a string characterName
+    void DisplayDialogue(int entryIndex)
     {
-        DialogueEntry entry = dialogueData.entries.Find(e => e.characterName == characterName);
+        if (entryIndex < 0 || entryIndex >= dialogueData.entries.Count)
+        {
+            Debug.LogError("Dialogue entry index out of range: " + entryIndex);
+            return;
+        }
+
+        DialogueEntry entry = dialogueData.entries[entryIndex];
 
         if (entry != null)
         {
-            nameText.text = characterName + ":";
+            nameText.text = entry.characterName + ":";
             sentences.Clear();
             currentSentenceIndex = 0; // Reset the sentence index
+
             foreach (string sentence in entry.sentences)
             {
                 sentences.Enqueue(sentence);
@@ -109,7 +129,85 @@ public class DialogueSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Character not found in dialogue data: " + characterName);
+            Debug.LogError("Dialogue entry not found at index: " + entryIndex);
+        }
+    }
+
+    private void DisplayChoices(List<DialogueChoice> choices)
+    {
+        // Clear any existing choice buttons first
+        ClearChoices();
+
+        // Determine the starting position for the first button
+        Vector3 startPosition = new Vector3(-172.5f, 0, 0); // You can adjust this as needed
+        float xOffset = 172.5f; // The x offset between buttons, adjust as needed
+        float yOffset = 30f; // The y offset between buttons, adjust as needed
+
+        // Instantiate choice buttons based on the JSON data
+        for (int i = 0; i < choices.Count; i++)
+        {
+            GameObject buttonObj = Instantiate(choiceButtonPrefab, dialoguePanelInstance.transform, false);
+            buttonObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPosition.x + (xOffset * i), startPosition.y - yOffset);
+
+            // Get the ChoiceButton script attached to the instantiated button
+            ChoiceButton choiceBtnComponent = buttonObj.GetComponent<ChoiceButton>();
+
+            // Initialize the button with the choice data
+            if (choiceBtnComponent != null)
+            {
+                choiceBtnComponent.Initialize(choices[i]);
+            }
+            else
+            {
+                Debug.LogError("ChoiceButton component not found on the instantiated button prefab.");
+            }
+
+            // Add the instantiated button to the list for reference
+            choiceButtons.Add(buttonObj);
+        }
+
+        // Set the first choice as selected by default, if any choices are available
+        if (choiceButtons.Count > 0)
+        {
+            currentChoiceIndex = 0;
+            SelectChoice(currentChoiceIndex); // This function needs to be implemented to handle the visual selection of buttons
+        }
+    }
+
+    private void ClearChoices()
+    {
+        foreach (var button in choiceButtons)
+        {
+            Destroy(button); // Remove the button from the scene
+        }
+        choiceButtons.Clear();
+        currentChoiceIndex = 0; // Reset the choice index
+    }
+
+    public void MakeChoice(DialogueChoice choice)
+    {
+        // Ensure that any ongoing dialogue display is stopped before proceeding
+        StopAllCoroutines();
+
+        // Update the current entry index based on the choice made
+        int nextIndex = choice.nextDialogueIndex;
+
+        // Clear any existing choices
+        ClearChoices();
+
+        // Reset the sentence index
+        currentSentenceIndex = 0;
+
+        // Check if the next dialogue index is valid before displaying
+        if (nextIndex >= 0 && nextIndex < dialogueData.entries.Count)
+        {
+            currentEntryIndex = nextIndex; // Only update the currentEntryIndex if the nextIndex is valid
+            DisplayDialogue(currentEntryIndex);
+        }
+        else
+        {
+            Debug.LogError("Invalid next dialogue index: " + nextIndex);
+            EndDialogue(); // End the dialogue if the next index is invalid
         }
     }
 
@@ -125,34 +223,71 @@ public class DialogueSystem : MonoBehaviour
         }
         else
         {
-            // No more sentences, check for the next entry
-            currentEntryIndex++;
+            DialogueEntry currentEntry = dialogueData.entries[currentEntryIndex];
 
-            if (currentEntryIndex < dialogueData.entries.Count)
+            // Check if there are choices or if the dialogue entry is marked as the end of a branch.
+            if (!currentEntry.end)
             {
-                DisplayDialogue(dialogueData.entries[currentEntryIndex].characterName);
+                // If there are choices at the end of this dialogue entry
+                if (currentEntry.choices != null && currentEntry.choices.Count > 0)
+                {
+                    // If there are choices, display them
+                    DisplayChoices(currentEntry.choices);
+                }
+                else
+                {
+                    // If there are no choices, proceed to the next dialogue entry
+                    ProceedToNextDialogueEntry();
+                }
             }
             else
             {
-                // End of conversation
+                // If the current entry is the end of a branch, do not proceed
                 EndDialogue();
             }
+        }
+    }
+
+    private void ProceedToNextDialogueEntry()
+    {
+        currentEntryIndex++;
+        if (currentEntryIndex < dialogueData.entries.Count)
+        {
+            DisplayDialogue(currentEntryIndex);
+        }
+        else
+        {
+            // End of conversation
+            EndDialogue();
         }
     }
 
     IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
+
         foreach (char letter in sentence.ToCharArray())
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typeSeconds); // Waits 0.05 seconds before continuing the loop, adjust the timing to your liking
+            // Check if dialogueText is not null before trying to set its text property
+            if (dialogueText != null)
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(typeSeconds);
+            }
+            else
+            {
+                // If dialogueText is null, exit the coroutine
+                yield break;
+            }
         }
-        waitingForPlayerInput = true; // The player can proceed to the next sentence after the current one has finished typing
+
+        waitingForPlayerInput = true;
     }
 
     void EndDialogue()
     {
+        // Clear choices when ending the dialogue
+        ClearChoices();        
         nameText.text = "";
         dialogueText.text = "";
 
@@ -161,20 +296,77 @@ public class DialogueSystem : MonoBehaviour
         dialoguePanelInstance.SetActive(false);
         dialogStarted = false;
         IsDialogueComplete = true;
+        ExitDialogueMode();        
         OnDialogueEnd?.Invoke();
+        StopAllCoroutines();
+        Destroy(dialoguePanelInstance);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waitingForPlayerInput)
+        if (inDialogueMode)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (waitingForPlayerInput && sentences.Count == 0) // Only accept choice inputs if there are no sentences left to display
             {
-                // Player pressed Enter, proceed to the next sentence
-                DisplayNextSentence();
+                if (choiceButtons.Count > 0)
+                {
+                    if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        currentChoiceIndex = (currentChoiceIndex + 1) % choiceButtons.Count;
+                        SelectChoice(currentChoiceIndex);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        currentChoiceIndex--;
+                        if (currentChoiceIndex < 0)
+                        {
+                            currentChoiceIndex = choiceButtons.Count - 1;
+                        }
+                        SelectChoice(currentChoiceIndex);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                    {
+                        ExecuteChoice(currentChoiceIndex);
+                    }
+                }
+            }
+            else if (waitingForPlayerInput)
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                {
+                    DisplayNextSentence();
+                }
             }
         }
+    }
+
+    private void SelectChoice(int index)
+    {
+        // Deselect all buttons
+        foreach (var button in choiceButtons)
+        {
+            var btn = button.GetComponent<Button>();
+            btn.colors = ColorBlock.defaultColorBlock; // Set to default colors
+        }
+
+        // Highlight the selected button
+        var selectedButton = choiceButtons[index].GetComponent<Button>();
+        var colors = selectedButton.colors;
+        colors.normalColor = Color.yellow; // Or any color that indicates selection
+        colors.highlightedColor = Color.yellow;
+        selectedButton.colors = colors;
+
+        // Optionally, scroll to the selected button if it's not fully visible
+        // (for example, in a scroll view)
+        // (Your scroll view component).ScrollTo(selectedButton);
+    }
+
+    private void ExecuteChoice(int index)
+    {
+        DialogueChoice choice = choiceButtons[index].GetComponent<ChoiceButton>().Choice;
+        ClearChoices();
+        DisplayDialogue(choice.nextDialogueIndex);
     }
 
     void PlaySound(AudioClip sound)
@@ -212,7 +404,26 @@ public class DialogueSystem : MonoBehaviour
             currentEntryIndex = 0;
             currentSentenceIndex = 0;
             dialogStarted = true;
+            EnterDialogueMode();
             StartDialogue();
+        }
+    }
+
+    public void EnterDialogueMode()
+    {
+        inDialogueMode = true;
+        if (playerController != null)
+        {
+            playerController.SetMovementEnabled(false);
+        }
+    }
+
+    public void ExitDialogueMode()
+    {
+        inDialogueMode = false;
+        if (playerController != null)
+        {
+            playerController.SetMovementEnabled(true);
         }
     }
 }
