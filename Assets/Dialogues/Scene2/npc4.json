@@ -28,7 +28,7 @@
         {
             "characterName": "NPC",
             "sentences": [
-                "No? Do you live in a cave?."
+                "No? Do you live in a cave?"
             ],
             "choices": [],
             "end": true
