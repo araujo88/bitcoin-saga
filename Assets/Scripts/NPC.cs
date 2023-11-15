@@ -6,7 +6,6 @@ using UnityEditor;
 
 public class NPC : Entity
 {
-    public TextAsset jsonFile; // Attach your JSON file here in the Inspector    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +14,10 @@ public class NPC : Entity
     }
 
     public override void StartDialogue() {
-        StartCoroutine(StartDialogueCoroutine());
+        if (repeatDialogue || !isDialogueFinished) {
+            StartCoroutine(StartDialogueCoroutine());
+            isDialogueFinished = true;
+        }
     }
 
     public override IEnumerator StartDialogueCoroutine()

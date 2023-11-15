@@ -1,0 +1,74 @@
+{
+    "entries": [
+        {
+            "characterName": "John Galt",
+            "sentences": [
+            "Time to start working.",
+            "Well, I guess I could stall a little bit?",
+            "I'll start by checking today's news. Whoa, this sounds interesting:",
+            "\"Bitcoin, the pioneering digital currency, has achieved a landmark value, soaring to $1,000 for the first time.\"",
+            "\"This milestone marks a significant moment in financial history, symbolizing the growing acceptance of Bitcoin.\"",
+            "\"Investors and tech enthusiasts are captivated by this surge, which reflects the increasing trust.\"",
+            "\"Bitcoin's rise is seen as a game-changer in the world of finance and technology.\"",
+            "This sounds very interesting. Maybe I should lookup more info about this thing called Bitcoin.",
+            "Alright, I'll ask around on this internet forum more about it.",
+            "...",
+            "Somebody replied! Let's see ..."
+        ],
+        "choices": []
+        },
+        {
+            "characterName": "NAT",
+            "sentences": [
+            "So you want to dive into world of Bitcoin? Well, I can provide some guidance.",
+            "Btw, you can call my NAT, as in Network Address Translation :)",
+            "First thing's first: you need a wallet. Think of it as an app on your phone.",
+            "Now, to set it up, you'll generate a seed phrase - that's 12 random words.",
+            "It's super important, kinda like the master password to your digital money.",
+            "Next step: your wallet uses this phrase to create two keys.",
+            "The public key is like your email address, where people send you Bitcoin.",
+            "The private key, though, is more like your email password. It lets you access and spend your Bitcoin.",
+            "Remember, keep your seed phrase and private key SAFE and SECRET.",
+            "If you lose them, there's no 'forgot my password' option.",
+            "You lose access to your Bitcoins, and no one can help you get them back.",
+            "The wallet I use and recommend is called \"Electrum\". You can download it at electrum.org."
+        ],
+        "choices": []
+        },
+        {
+            "characterName": "John Galt",
+            "sentences": [
+            "Wow, that was fast. So, basically, I need a wallet and then I'll generate a private and public keys.",
+            "Well, I'm at my employee's computer right now. I could generate my keys right now.",
+            "Based on the information NAT gave me, I should generate them..."
+        ],
+        "choices": [
+            {
+                "text": "At home.",
+                "nextDialogueIndex": 3
+            },
+            {
+                "text": "Here.",
+                "nextDialogueIndex": 4
+            }
+        ]
+        },
+        {
+            "characterName": "John Galt",
+            "sentences": [
+                "Yeah, definitely. Somebody could hack this computer and steal my keys."
+            ],
+            "choices": [],
+            "end": true
+        },
+        {
+            "characterName": "John Galt",
+            "sentences": [
+                "Hmm, probably a bad idea. Several people have access to this computer and could steal my keys.",
+                "I should generate them after work at my personal computer, where only I have access."
+            ],
+            "choices": [],
+            "end": true
+        }
+    ]
+}

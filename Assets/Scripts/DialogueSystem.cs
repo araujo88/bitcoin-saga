@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using System;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class DialogueChoice
@@ -53,10 +54,23 @@ public class DialogueSystem : MonoBehaviour
     private int currentChoiceIndex = 0; // Index of the selected choice button
     private bool inDialogueMode = false;
     public Player playerController; // Assign this in the inspector
-
+    private int lastSelectedIndex = -1; // Add this as a class member to track the last selected index
+    private bool inChoiceMode = false;
+    private Dictionary<string, Sprite> characterAvatars;
+    public Sprite npcSprite;
+    public Sprite playerSprite;
+    public Sprite natSprite;
+    public Sprite satoshiNakamotoSprite;
+    
     void Start() {
         audioSource = GetComponent<AudioSource>();
         avatar = GetComponent<Image>();
+        characterAvatars = new Dictionary<string, Sprite> {
+                { "NPC", npcSprite },
+                { "John Galt", playerSprite },
+                { "NAT", natSprite },
+                { "Satoshi Nakamoto", satoshiNakamotoSprite}
+        };
     }
 
     void StartDialogue()
@@ -119,6 +133,9 @@ public class DialogueSystem : MonoBehaviour
             sentences.Clear();
             currentSentenceIndex = 0; // Reset the sentence index
 
+            // Display the avatar for the character
+            DisplayAvatar(entry.characterName);
+
             foreach (string sentence in entry.sentences)
             {
                 sentences.Enqueue(sentence);
@@ -130,6 +147,18 @@ public class DialogueSystem : MonoBehaviour
         else
         {
             Debug.LogError("Dialogue entry not found at index: " + entryIndex);
+        }
+    }
+
+    // This method displays the avatar corresponding to the given character name
+    void DisplayAvatar(string characterName) {
+        if (characterAvatars.TryGetValue(characterName, out Sprite avatarSprite)) {
+            // If the character name is found in the dictionary, set the avatar image
+            avatar.enabled = true;
+            avatar.sprite = avatarSprite;
+        } else {
+            // If the character name is not found, disable the avatar image
+            Debug.LogWarning("Avatar not found for character: " + characterName);
         }
     }
 
@@ -166,11 +195,13 @@ public class DialogueSystem : MonoBehaviour
             choiceButtons.Add(buttonObj);
         }
 
-        // Set the first choice as selected by default, if any choices are available
+        // Select the first choice button by default
         if (choiceButtons.Count > 0)
         {
+            var firstButton = choiceButtons[0].GetComponent<Button>();
+            firstButton.Select();
             currentChoiceIndex = 0;
-            SelectChoice(currentChoiceIndex); // This function needs to be implemented to handle the visual selection of buttons
+            SelectChoice(currentChoiceIndex);
         }
     }
 
@@ -207,6 +238,7 @@ public class DialogueSystem : MonoBehaviour
         else
         {
             Debug.LogError("Invalid next dialogue index: " + nextIndex);
+            inChoiceMode = false;
             EndDialogue(); // End the dialogue if the next index is invalid
         }
     }
@@ -220,6 +252,7 @@ public class DialogueSystem : MonoBehaviour
             PlaySound(dialogueSound);            
             StartCoroutine(TypeSentence(sentence)); // Start the coroutine to type out the sentence
             currentSentenceIndex++;
+            //inChoiceMode = false;
         }
         else
         {
@@ -233,6 +266,7 @@ public class DialogueSystem : MonoBehaviour
                 {
                     // If there are choices, display them
                     DisplayChoices(currentEntry.choices);
+                    waitingForPlayerInput = true; // The player now needs to make a choice.
                 }
                 else
                 {
@@ -307,66 +341,99 @@ public class DialogueSystem : MonoBehaviour
     {
         if (inDialogueMode)
         {
-            if (waitingForPlayerInput && sentences.Count == 0) // Only accept choice inputs if there are no sentences left to display
+            if (waitingForPlayerInput)
             {
-                if (choiceButtons.Count > 0)
+                if (choiceButtons.Count > 0 || inChoiceMode)
                 {
-                    if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-                    {
-                        currentChoiceIndex = (currentChoiceIndex + 1) % choiceButtons.Count;
-                        SelectChoice(currentChoiceIndex);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-                    {
-                        currentChoiceIndex--;
-                        if (currentChoiceIndex < 0)
-                        {
-                            currentChoiceIndex = choiceButtons.Count - 1;
-                        }
-                        SelectChoice(currentChoiceIndex);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
-                    {
-                        ExecuteChoice(currentChoiceIndex);
-                    }
+                    // Only handle choice navigation if there are choices present
+                    HandleChoiceNavigation();
                 }
-            }
-            else if (waitingForPlayerInput)
-            {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+                else if (Input.GetKeyDown(KeyCode.Return) && !inChoiceMode)
                 {
+                    // If there are no choices, we should display the next sentence
                     DisplayNextSentence();
                 }
             }
         }
     }
 
-    private void SelectChoice(int index)
+    private void HandleChoiceNavigation()
     {
-        // Deselect all buttons
-        foreach (var button in choiceButtons)
-        {
-            var btn = button.GetComponent<Button>();
-            btn.colors = ColorBlock.defaultColorBlock; // Set to default colors
+        if (!inChoiceMode) {
+            currentChoiceIndex = 0;
+            inChoiceMode = true;
+            SelectChoice(currentChoiceIndex);
         }
 
-        // Highlight the selected button
-        var selectedButton = choiceButtons[index].GetComponent<Button>();
-        var colors = selectedButton.colors;
-        colors.normalColor = Color.yellow; // Or any color that indicates selection
-        colors.highlightedColor = Color.yellow;
-        selectedButton.colors = colors;
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            // Move selection to the right
+            currentChoiceIndex++;
+            currentChoiceIndex = currentChoiceIndex % choiceButtons.Count;
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            // Move selection to the left
+            currentChoiceIndex--;
+            if (currentChoiceIndex < 0)
+                currentChoiceIndex = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            // Execute the selected choice
+            Debug.Log($"Choice selected: {currentChoiceIndex}");
+            
+            try {
+                ChoiceButton selectedChoiceButton = choiceButtons[currentChoiceIndex].GetComponent<ChoiceButton>();
+                if (selectedChoiceButton != null)
+                {
+                    MakeChoice(selectedChoiceButton.Choice);
+                }
+                else
+                {
+                    Debug.LogError("Selected button does not have a ChoiceButton component.");
+                }
+            } catch (ArgumentOutOfRangeException e) {
+                inChoiceMode = false;
+            }
+        }
 
-        // Optionally, scroll to the selected button if it's not fully visible
-        // (for example, in a scroll view)
-        // (Your scroll view component).ScrollTo(selectedButton);
+        // Update visual selection
+        SelectChoice(currentChoiceIndex);
     }
 
-    private void ExecuteChoice(int index)
+    private void SelectChoice(int index)
     {
-        DialogueChoice choice = choiceButtons[index].GetComponent<ChoiceButton>().Choice;
-        ClearChoices();
-        DisplayDialogue(choice.nextDialogueIndex);
+        // Ensure we have a valid index
+        if (index < 0 || index >= choiceButtons.Count) return;
+
+        // Deselect all buttons and reset text changes if any
+        for (int i = 0; i < choiceButtons.Count; i++)
+        {
+            var button = choiceButtons[i].GetComponent<Button>();
+            button.colors = ColorBlock.defaultColorBlock; // Set to default colors
+            if (i != lastSelectedIndex) // Only reset text if this button wasn't the last selected one
+            {
+                var buttonText = button.GetComponentInChildren<Text>();
+                buttonText.text = buttonText.text.Trim('<', '>'); // Remove the angle brackets if present
+            }
+        }
+
+        // If the selected index has changed, update the text
+        if (lastSelectedIndex != index)
+        {
+            var selectedButton = choiceButtons[index].GetComponent<Button>();
+            var colors = selectedButton.colors;
+            colors.normalColor = Color.yellow; // Or any color that indicates selection
+            colors.highlightedColor = Color.yellow;
+            selectedButton.colors = colors;
+            var buttonText = selectedButton.GetComponentInChildren<Text>();
+            buttonText.text = "<" + buttonText.text + ">";
+            selectedButton.Select();
+            EventSystem.current.SetSelectedGameObject(choiceButtons[index].gameObject);
+
+            lastSelectedIndex = index; // Update the last selected index
+        }
     }
 
     void PlaySound(AudioClip sound)

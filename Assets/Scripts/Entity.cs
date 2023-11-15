@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
+    [SerializeField] public bool repeatDialogue = true;
+    protected bool isDialogueFinished = false;
     protected Sprite initialSprite;
     public Sprite frontFacing;
     public Sprite rightFacing;
@@ -15,6 +17,7 @@ public abstract class Entity : MonoBehaviour
     public DialogueSystem dialogueSystem;
     private bool isPlayerNearby = false;
     protected bool isTalking = false; // should be handled by child class
+    public TextAsset jsonFile; // Attach your JSON file here in the Inspector    
 
 
     // Start is called before the first frame update

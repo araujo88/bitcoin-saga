@@ -9,7 +9,7 @@
         ],
         "choices": [
             {
-                "text": "Yes, sure. You're right.",
+                "text": "Yes, sure ...",
                 "nextDialogueIndex": 1
             },
             {

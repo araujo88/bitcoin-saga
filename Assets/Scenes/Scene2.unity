@@ -1089,6 +1089,7 @@ GameObject:
   - component: {fileID: 218015380}
   - component: {fileID: 218015382}
   - component: {fileID: 218015381}
+  - component: {fileID: 218015383}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Computer
@@ -1104,12 +1105,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218015379}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.42, y: 5.65, z: 0.060325466}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.2385736, y: 5.5106244, z: 0.16486436}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1300694324}
+  m_Father: {fileID: 643112489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &218015381
 BoxCollider2D:
@@ -1140,7 +1141,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1208,6 +1209,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &218015383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218015379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  repeatDialogue: 0
+  frontFacing: {fileID: 0}
+  rightFacing: {fileID: 0}
+  leftFacing: {fileID: 0}
+  backFacing: {fileID: 0}
+  avatar: {fileID: 21300000, guid: 4404534add2915849ab3503076406ad2, type: 3}
+  dialogueSystem: {fileID: 787035117}
+  jsonFile: {fileID: 4900000, guid: 31b1825cfdc871a478cfac49420e132e, type: 3}
 --- !u!1 &250946765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2119,6 +2140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 218015380}
   - {fileID: 4016376565615080277}
   - {fileID: 836402092}
   - {fileID: 900065757}
@@ -2650,6 +2672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -3143,6 +3166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -3742,6 +3766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -3975,6 +4000,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 900065758}
   m_SourcePrefab: {fileID: 100100000, guid: 715aefcd90681e44fa32c29029934847, type: 3}
+--- !u!1 &1101749555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5253730293940500969, guid: a04ca6aeb8dc4254cbab7b2bb3ccae4a, type: 3}
+  m_PrefabInstance: {fileID: 867000244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1104490009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3997,7 +4027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4124061900742439442, guid: 715aefcd90681e44fa32c29029934847, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.98
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 4124061900742439442, guid: 715aefcd90681e44fa32c29029934847, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4081,6 +4111,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1163265484}
   - {fileID: 617820174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4202,7 +4233,7 @@ GameObject:
   - component: {fileID: 1163265484}
   - component: {fileID: 1163265483}
   - component: {fileID: 1163265482}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4241,7 +4272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1101749555}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1163265484
@@ -4252,12 +4283,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163265481}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1110391610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1164271928
 GameObject:
@@ -4420,7 +4451,6 @@ Transform:
   m_Children:
   - {fileID: 128723491}
   - {fileID: 28138567}
-  - {fileID: 218015380}
   - {fileID: 20978420}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7248,6 +7278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -13591,6 +13622,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880593633148598895, guid: 487ce10511bd55943a456b7392e8c036, type: 3}
+      propertyPath: natSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ce105bfa0fb31264e865e8c512017cbc, type: 3}
+    - target: {fileID: 2880593633148598895, guid: 487ce10511bd55943a456b7392e8c036, type: 3}
+      propertyPath: npcSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48369c4176425fd4aa2e7dbb6191eb14, type: 3}
+    - target: {fileID: 2880593633148598895, guid: 487ce10511bd55943a456b7392e8c036, type: 3}
+      propertyPath: playerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4404534add2915849ab3503076406ad2, type: 3}
+    - target: {fileID: 2880593633148598895, guid: 487ce10511bd55943a456b7392e8c036, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1579904519}
@@ -13598,6 +13641,10 @@ PrefabInstance:
       propertyPath: choiceButtonPrefab
       value: 
       objectReference: {fileID: 5253730293940500969, guid: a04ca6aeb8dc4254cbab7b2bb3ccae4a, type: 3}
+    - target: {fileID: 2880593633148598895, guid: 487ce10511bd55943a456b7392e8c036, type: 3}
+      propertyPath: satoshiNakamotoSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c2cb5b447fdead94897bca714a58daf0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13697,6 +13744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -13924,6 +13972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6809faa47f5c45d4caf4c87fe407e52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  repeatDialogue: 1
   frontFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   rightFacing: {fileID: 1040831050, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
   leftFacing: {fileID: 2138185279, guid: 1fd731f7e6ef26c4b81b04a8d0230b09, type: 3}
@@ -14007,4 +14056,3 @@ SceneRoots:
   - {fileID: 1549852438}
   - {fileID: 1300694324}
   - {fileID: 643112489}
-  - {fileID: 1163265484}
