@@ -1,0 +1,38 @@
+{
+    "entries": [
+        {
+            "characterName": "NPC",
+            "sentences": [
+            "What are you looking at? I'm just resting a bit.",
+            "Hey, what about dress code? You shouldn't go to work wearing a hoodie.",
+            "You are supposed to wear a suit like the rest of us."
+        ],
+        "choices": [
+            {
+                "text": "Yes, sure. You're right.",
+                "nextDialogueIndex": 1
+            },
+            {
+                "text": "F*ck off.",
+                "nextDialogueIndex": 2
+            }
+        ]
+        },
+        {
+            "characterName": "NPC",
+            "sentences": [
+                "Of course I am right!"
+            ],
+            "choices": [],
+            "end": true
+        },
+        {
+            "characterName": "NPC",
+            "sentences": [
+                "How rude! I'll report you to HR."
+            ],
+            "choices": [],
+            "end": true
+        }
+    ]
+}

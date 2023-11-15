@@ -10,6 +10,8 @@ TagManager:
   - Bathroom
   - ChoiceButton
   - Button
+  - Computer
+  - Rabbit
   layers:
   - Default
   - TransparentFX

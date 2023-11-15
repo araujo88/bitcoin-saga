@@ -88,7 +88,13 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Bathroom") {
             dialogueSystem.StartDialogueFromExternal("Scene2/bathroom.json", null, avatar, 0.025f);
             MoveToRelativePosition(new Vector2(0, 1), .5f);
-        }  
+        }
+        if (collision.gameObject.tag == "Rabbit") {
+            dialogueSystem.StartDialogueFromExternal("rabbit.json", null, null, 0.025f);
+            Destroy(collision.gameObject);
+            GameManager.Instance.rabbitsCollected++;
+            Debug.Log($"Rabbits collected: {GameManager.Instance.rabbitsCollected}");
+        }        
     }
 
     // Method to call to move the player to a relative position
