@@ -9,7 +9,8 @@
             "No mint or other trusted parties.",
             "Participants can be anonymous.",
             "New coins are made from Hashcash style proof-of-work.",
-            "The proof-of-work for new coin generation also powers the network to prevent double-spending."
+            "The proof-of-work for new coin generation also powers the network to prevent double-spending.",
+            ". . ."
         ]
         }
     ]

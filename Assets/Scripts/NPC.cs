@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class NPC : Entity
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer.sprite != null)
@@ -25,7 +26,7 @@ public class NPC : Entity
     {
         isTalking = true;
         UpdateSpriteBasedOnPlayerPosition(GameObject.Find("Player").transform.position);
-        dialogueSystem.StartDialogueFromExternal(AssetDatabase.GetAssetPath(jsonFile).Replace("Assets/Dialogues/", ""), null, avatar, 0.025f);
+        dialogueSystem.StartDialogueFromExternal(jsonFile, null, avatar, 0.025f);
         yield return new WaitUntil(() => dialogueSystem.IsDialogueComplete); 
         if (spriteRenderer.sprite != null)
             spriteRenderer.sprite = initialSprite;

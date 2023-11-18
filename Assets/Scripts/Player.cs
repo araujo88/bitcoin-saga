@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
     private float speed = 5f;
     private Rigidbody2D rigidBody;
-    [SerializeField] private float velocityTolerance = 0.1f;
-    public Animator animator;
+    [SerializeField] private float velocityTolerance = 0.01f;
+    private Animator animator;
     public DialogueSystem dialogueSystem;
     public Sprite avatar;
     private float fixedZPosition;
+    public ScreenFader screenFader;
+
 
     // Public method to set the player's ability to move
     public void SetMovementEnabled(bool enabled)
@@ -25,10 +27,13 @@ public class Player : MonoBehaviour
             rigidBody.velocity = Vector2.zero; // Stop any current movement
         }
     }
+
+    
     
     // Start is called before the first frame update
     void Start()
     {
+        screenFader.FadeIn();
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         dialogueSystem.StartDialogueFromExternal("Scene2/intro.json", null, avatar, 0.025f);

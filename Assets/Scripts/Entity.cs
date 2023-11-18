@@ -15,15 +15,16 @@ public abstract class Entity : MonoBehaviour
     public Sprite avatar;
     protected SpriteRenderer spriteRenderer;
     public DialogueSystem dialogueSystem;
-    private bool isPlayerNearby = false;
+    protected bool isPlayerNearby = false;
     protected bool isTalking = false; // should be handled by child class
-    public TextAsset jsonFile; // Attach your JSON file here in the Inspector    
+    public string jsonFile; // Attach your JSON file here in the Inspector
+    protected float speed = 5f;
+    protected Rigidbody2D rigidBody;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame

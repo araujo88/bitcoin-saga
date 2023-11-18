@@ -12,6 +12,8 @@ TagManager:
   - Button
   - Computer
   - Rabbit
+  - CoworkerComputer
+  - Fed
   layers:
   - Default
   - TransparentFX

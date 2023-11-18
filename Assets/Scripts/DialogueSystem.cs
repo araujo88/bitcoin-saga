@@ -22,6 +22,7 @@ public class DialogueEntry
     public string[] sentences;
     public List<DialogueChoice> choices;
     public bool end = false;
+    public string action; // The name of the method to call (optional)
 }
 
 [System.Serializable]
@@ -62,21 +63,24 @@ public class DialogueSystem : MonoBehaviour
     public Sprite playerSprite;
     public Sprite natSprite;
     public Sprite satoshiNakamotoSprite;
+    public Sprite fedSprite;
     
-    void Start() {
+    void Awake() {
         audioSource = GetComponent<AudioSource>();
         avatar = GetComponent<Image>();
         characterAvatars = new Dictionary<string, Sprite> {
                 { "NPC", npcSprite },
                 { "John Galt", playerSprite },
                 { "NAT", natSprite },
-                { "Satoshi Nakamoto", satoshiNakamotoSprite}
+                { "Satoshi Nakamoto", satoshiNakamotoSprite},
+                { "Agent", fedSprite}
         };
     }
 
     void StartDialogue()
     {
-        string path = Path.Combine(Application.dataPath, jsonFilePath);
+        string path = Path.Combine(Application.streamingAssetsPath, jsonFilePath);
+        Debug.Log(path);
 
         if (LoadDialogueData(path))
         {
@@ -144,6 +148,12 @@ public class DialogueSystem : MonoBehaviour
 
             // Display the first sentence
             DisplayNextSentence();
+
+            // Execute the method associated with the entry, if specified
+            if (!string.IsNullOrEmpty(entry.action))
+            {
+                Invoke(entry.action, 0f); // Use Invoke to call the method by name
+            }
         }
         else
         {
@@ -159,6 +169,8 @@ public class DialogueSystem : MonoBehaviour
             avatar.sprite = avatarSprite;
         } else {
             // If the character name is not found, disable the avatar image
+            if (avatar != null)
+                avatar.enabled = false;
             Debug.LogWarning("Avatar not found for character: " + characterName);
         }
     }

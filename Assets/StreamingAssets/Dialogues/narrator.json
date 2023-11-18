@@ -1,0 +1,24 @@
+{
+    "entries": [
+        {
+            "characterName": "Narrator",
+            "sentences": [
+            "Some years later . . ."
+        ]
+    },
+    {
+        "characterName": "Mike Hearn",
+        "sentences": [
+        "I had a few other things on my mind (as always).",
+        "One is, are you planning on rejoining the community at some point (eg for code reviews)?",
+        "Or is your plan to permanently step back from the limelight?"
+    ]
+    },
+    {
+        "characterName": "Satoshi Nakamoto",
+        "sentences": [
+            "I've moved on to other things.  It's in good hands with Gavin and everyone."
+        ]
+    }    
+    ]
+}
