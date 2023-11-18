@@ -5,7 +5,7 @@
             "sentences": [
             "Time to start working.",
             "Well, I guess I could stall a little bit?",
-            "I'll start by checking today's news. Whoa, this sounds interesting:",
+            "I'll start by checking today's news.",
             "\"Bitcoin, the pioneering digital currency, has achieved a landmark value, soaring to $1,000 for the first time.\"",
             "\"This milestone marks a significant moment in financial history, symbolizing the growing acceptance of Bitcoin.\"",
             "\"Investors and tech enthusiasts are captivated by this surge, which reflects the increasing trust.\"",
@@ -22,34 +22,79 @@
             "sentences": [
             "So you want to get into the rabbit whole of Bitcoin? Well, I can provide some guidance.",
             "Btw, you can call me NAT, as in Network Address Translation :)",
-            "First thing's first: you need a wallet. Think of it as an app on your phone.",
-            "Now, to set it up, you'll generate a seed phrase - that's 12 random words.",
-            "It's super important, kinda like the master password to your digital money.",
-            "Next step: your wallet uses this phrase to create two keys.",
-            "The public key is like your email address, where people send you Bitcoin.",
-            "The private key, though, is more like your email password. It lets you access and spend your Bitcoin.",
-            "Remember, keep your seed phrase and private key SAFE and SECRET.",
-            "If you lose them, there's no 'forgot my password' option.",
-            "You lose access to your Bitcoins, and no one can help you get them back.",
-            "The wallet I use and recommend is called \"Electrum\". You can download it at electrum.org."
+            "Before we continue, do you know what Bitcoin actually is?"
         ],
-        "choices": []
+        "choices": [
+            {
+                "text": "Yes.",
+                "nextDialogueIndex": 3
+            },
+            {
+                "text": "No.",
+                "nextDialogueIndex": 2
+            }
+        ]
+        },
+        {
+            "characterName": "NAT",
+            "sentences": [
+                "Bitcoin is a digital form of money, known as a cryptocurrency, that operates independently of a central bank.",
+                "It uses a public distributed ledger that records all transactions securely and transparently.",
+                "Sometimes this ledger is reffered as \"blockchain\", but I prefer to call it \"timechain\" :)",
+                "Each transaction is verified by a network of computers, ensuring security and preventing fraud.",
+                "This process of verification is called mining, and basically it involves solving a complex mathematical problem.",
+                "Unlike traditional currencies, Bitcoin has a limited supply, which makes it similar to precious metals like gold.",
+                "Bitcoin is stored in digital wallets and can be sent directly between users without needing an intermediary.",
+                "To summarize, Bitcoin's main characteristics are:",
+                "Decentralization.",
+                "Privacy and pseudonymity.",
+                "Limited supply, in opposition to fiduciary (fiat) money.",
+                "Security and immutability.",
+                "Peer-to-peer transactions.",
+                "Transparency.",
+                "Portability and accessibility."
+            ],
+            "choices": []
         },
         {
             "characterName": "John Galt",
             "sentences": [
-            "Wow, that was fast. So, basically, I need a wallet and then I'll generate a private and public keys.",
-            "Well, I'm at my employee's computer right now. I could generate my keys right now.",
+            "Right, I think I got the basics. But how do I get some Bitcoin?",
+            "Should I try to buy some with fiat money or should I try mining Bitcoin?"
+        ],
+        "choices": []
+        },
+        {
+            "characterName": "NAT",
+            "sentences": [
+                "First thing's first: you'll need a wallet. Think of it as an app on your phone.",
+                "Now, to set it up, you'll generate a seed phrase - that's 12 random words.",
+                "It's super important, kinda like the master password to your digital money.",
+                "Next step: your wallet uses this phrase to create two keys.",
+                "The public key is like your email address, where people send you Bitcoin.",
+                "The private key, though, is more like your email password. It lets you access and spend your Bitcoin.",
+                "Remember, keep your seed phrase and private key SAFE and SECRET.",
+                "If you lose them, there's no 'forgot my password' option.",
+                "You'll lose access to your Bitcoins, and no one can help you get them back.",
+                "I gotta go now, feel free to reach me if you have questions."
+            ],
+            "choices": []
+        },
+        {
+            "characterName": "John Galt",
+            "sentences": [
+            "Wow, that was a lot of info. So, basically, I need a wallet and then I'll generate a private and public keys.",
+            "Well, I'm at my employer's computer right now. I could generate my keys here.",
             "Based on the information NAT gave me, I should generate them..."
         ],
         "choices": [
             {
                 "text": "At home.",
-                "nextDialogueIndex": 3
+                "nextDialogueIndex": 6
             },
             {
                 "text": "Here.",
-                "nextDialogueIndex": 4
+                "nextDialogueIndex": 7
             }
         ]
         },

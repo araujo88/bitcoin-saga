@@ -8,11 +8,13 @@
             "choices": [
                 {
                     "text": "Yes.",
-                    "nextDialogueIndex": 1
+                    "nextDialogueIndex": 1,
+                    "action": "OnYesChosen"
                 },
                 {
                     "text": "No.",
-                    "nextDialogueIndex": 2
+                    "nextDialogueIndex": 2,
+                    "action": "OnNoChosen"
                 }
             ],
             "end": false

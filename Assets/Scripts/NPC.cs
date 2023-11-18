@@ -10,7 +10,8 @@ public class NPC : Entity
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        initialSprite = spriteRenderer.sprite;
+        if (spriteRenderer.sprite != null)
+            initialSprite = spriteRenderer.sprite;
     }
 
     public override void StartDialogue() {
@@ -26,7 +27,8 @@ public class NPC : Entity
         UpdateSpriteBasedOnPlayerPosition(GameObject.Find("Player").transform.position);
         dialogueSystem.StartDialogueFromExternal(AssetDatabase.GetAssetPath(jsonFile).Replace("Assets/Dialogues/", ""), null, avatar, 0.025f);
         yield return new WaitUntil(() => dialogueSystem.IsDialogueComplete); 
-        spriteRenderer.sprite = initialSprite;
+        if (spriteRenderer.sprite != null)
+            spriteRenderer.sprite = initialSprite;
         isTalking = false;
     }
 }

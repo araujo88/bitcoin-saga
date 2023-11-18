@@ -12,6 +12,7 @@ public class DialogueChoice
 {
     public string text;
     public int nextDialogueIndex; // The index of the next dialogue entry to jump to
+    public string action; // The name of the method to call (optional)
 }
 
 [System.Serializable]
@@ -217,6 +218,12 @@ public class DialogueSystem : MonoBehaviour
 
     public void MakeChoice(DialogueChoice choice)
     {
+        // Execute the method associated with the choice, if specified
+        if (!string.IsNullOrEmpty(choice.action))
+        {
+            Invoke(choice.action, 0f); // Use Invoke to call the method by name
+        }
+
         // Ensure that any ongoing dialogue display is stopped before proceeding
         StopAllCoroutines();
 
@@ -492,5 +499,17 @@ public class DialogueSystem : MonoBehaviour
         {
             playerController.SetMovementEnabled(true);
         }
+    }
+
+    private void OnYesChosen()
+    {
+        Debug.Log("Yes was chosen");
+        // Add your logic here
+    }
+
+    private void OnNoChosen()
+    {
+        Debug.Log("No was chosen");
+        // Add your logic here
     }
 }

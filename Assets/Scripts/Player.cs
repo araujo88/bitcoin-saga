@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     public DialogueSystem dialogueSystem;
     public Sprite avatar;
+    private float fixedZPosition;
 
     // Public method to set the player's ability to move
     public void SetMovementEnabled(bool enabled)
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         dialogueSystem.StartDialogueFromExternal("Scene2/intro.json", null, avatar, 0.025f);
+        fixedZPosition = transform.position.z;
     }
 
     // Update is called once per frame
@@ -38,6 +40,15 @@ public class Player : MonoBehaviour
     {
         Move();
         AnimatorController();
+        ResetZPosition();        
+    }
+
+    void ResetZPosition()
+    {
+        // Constantly reset the Z position to the fixed value
+        Vector3 position = transform.position;
+        position.z = fixedZPosition;
+        transform.position = position;        
     }
 
     void Move() {
