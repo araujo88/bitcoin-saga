@@ -1,5 +1,7 @@
 # Bitcoin Saga
-An educational retro RPG game that teaches Bitcoin.
+An educational retro RPG game that teaches Bitcoin, self-sovereignty, privacy and freedom.
+
+Inspired by Satoshi Nakamoto and the Cypherpunk Manifesto.
 
 ![Bitcoin Saga](bitcoin-saga.png)
 
