@@ -1,6 +1,8 @@
 # Bitcoin Saga
 An educational retro RPG game that teaches Bitcoin.
 
+![Bitcoin Saga](bitcoin-saga.png)
+
 ## Plot
 
 #### Game Introduction
