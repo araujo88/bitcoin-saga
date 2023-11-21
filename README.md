@@ -3,6 +3,10 @@ An educational retro RPG game that teaches Bitcoin.
 
 ![Bitcoin Saga](bitcoin-saga.png)
 
+## Engine
+
+Unity 2022.3.11f1
+
 ## Plot
 
 #### Game Introduction
