@@ -7,6 +7,10 @@ An educational retro RPG game that teaches Bitcoin.
 
 Unity 2022.3.11f1
 
+## Gameplay
+
+https://lightning.video/38ff7188b0bed2e4a6e84a72316946e859f826996484df90297b41b9756b119a
+
 ## Plot
 
 #### Game Introduction
