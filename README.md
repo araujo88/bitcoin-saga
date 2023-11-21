@@ -15,7 +15,7 @@ https://lightning.video/38ff7188b0bed2e4a6e84a72316946e859f826996484df90297b41b9
 
 #### Game Introduction
 - **Setting**: A digital world inspired by the early days of the internet.
-- **Character**: The player assumes the role of Alex, a young cypherpunk enthusiast.
+- **Character**: The player assumes the role of John Galt, a young cypherpunk enthusiast.
 - **Objective**: Learn about Bitcoin, master self-custody, and navigate the digital world safely.
 
 #### Chapter 1: The Genesis Block
