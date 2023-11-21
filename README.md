@@ -62,3 +62,13 @@ Unity 2022.3.11f1
 
 ### Conclusion
 "Bitcoin Saga" aims to educate players in an entertaining way about Bitcoin. It combines the allure of retro gaming with the need for knowledge in the ever-evolving world of Bitcoin.
+
+## License
+
+This project is open source and available under the [GNU GENERAL PUBLIC LICENSE](LICENSE).
+
+## Donations
+
+You can donate some satoshis via Lightning Network to the address below:
+
+![cyberhermit@getalby.com](./ln-address.svg)
