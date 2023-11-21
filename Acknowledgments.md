@@ -2,3 +2,4 @@
 
  - Seu Freitas
  - indie libertária
+ - hoppeana
